@@ -1,3 +1,4 @@
+from pdb import set_trace as TT
 import imp
 from gym_pcgrl.envs.probs import PROBLEMS
 from gym_pcgrl.envs.reps import REPRESENTATIONS
@@ -19,10 +20,13 @@ class PcgrlEnv3D(PcgrlEnv):
         self._iteration = 0
         self._changes = 0
         
-        self._max_changes = max(
-            int(0.2 * self._prob._length * self._prob._width * self._prob._height), 1)
-        self._max_iterations = self._max_changes * \
-            self._prob._length * self._prob._width * self._prob._height
+        # NOTE: allow overfitting: can take as many steps as there are tiles in the maps, can change every tile on the map
+        self._max_changes = np.inf
+#       self._max_changes = max(
+#           int(0.2 * self._prob._length * self._prob._width * self._prob._height), 1)
+        self._max_iterations = self._prob._length * self._prob._width * self._prob._height
+#       self._max_iterations = self._max_changes * \
+#           self._prob._length * self._prob._width * self._prob._height
         self._heatmap = np.zeros(
             (self._prob._height, self._prob._width, self._prob._length))
         
@@ -56,8 +60,8 @@ class PcgrlEnv3D(PcgrlEnv):
             percentage = min(1, max(0, kwargs.get('change_percentage')))
             self._max_changes = max(
                 int(percentage * self._prob._length * self._prob._width * self._prob._height), 1)
-        self._max_iterations = self._max_changes * \
-            self._prob._length * self._prob._width * self._prob._height
+#       self._max_iterations = self._max_changes * \
+#           self._prob._length * self._prob._width * self._prob._height
         self._prob.adjust_param(**kwargs)
         self._rep.adjust_param(**kwargs)
         self.action_space = self._rep.get_action_space(
@@ -83,9 +87,13 @@ class PcgrlEnv3D(PcgrlEnv):
         observation = self._rep.get_observation()
         observation["heatmap"] = self._heatmap.copy()
         reward = self._prob.get_reward(self._rep_stats, old_stats)
-        done = self._prob.get_episode_over(self._rep_stats, old_stats) or \
-            self._changes >= self._max_changes or \
-            self._iteration >= self._max_iterations
+
+        # NOTE: not ending the episode if we reach targets in our metrics of interest for now
+#       done = self._prob.get_episode_over(self._rep_stats, old_stats) or \
+#           self._changes >= self._max_changes or \
+#           self._iteration >= self._max_iterations
+        done = self._iteration >= self._max_iterations
+
         info = self._prob.get_debug_info(self._rep_stats, old_stats)
         info["iterations"] = self._iteration
         info["changes"] = self._changes
