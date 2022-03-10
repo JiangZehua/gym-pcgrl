@@ -176,4 +176,5 @@ class Minecraft3DZeldaProblem(Problem):
         spawn_3D_border(map, self._border_tile)
         spawn_3D_maze(map, self._border_tile)
         # TODO add path rendering
+        # TODO change the render process so that it doesn't need to render /w evocraft at each step
         return 
