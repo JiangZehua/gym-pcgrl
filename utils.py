@@ -90,7 +90,8 @@ def max_exp_idx(exp_name):
 
     # Collect log directories corresponding to this experiment.
     log_files = glob.glob('{}*'.format(log_dir))
-
+    
+    # now start with 1
     if len(log_files) == 0:
         n = 1
     else:

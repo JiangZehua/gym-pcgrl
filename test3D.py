@@ -9,6 +9,7 @@ from utils import make_vec_envs
 
 if __name__=="__main__":
     env = gym.make('minecraft_3D_maze-narrow3D-v0')
+    # remember to quit
     while True:
         observation = env.reset()
         for step in range(500):

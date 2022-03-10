@@ -24,6 +24,7 @@ def callback(_locals, _globals):
     """
     global n_steps, best_mean_reward
     # Print stats every 1000 calls
+    # save the model at time step 0
     if n_steps % 10 == 0:
         x, y = ts2xy(load_results(log_dir), 'timesteps')
         # if len(x) > 100:
