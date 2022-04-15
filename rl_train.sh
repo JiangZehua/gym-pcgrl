@@ -6,20 +6,20 @@
 ## We won't be asking for gpus, for now
 ##SBATCH --gres=gpu:1
 
-#SBATCH --time=120:00:00
+#SBATCH --time=12:00:00
 #SBATCH --mem=30GB
-#SBATCH --job-name=pcgrl
+#SBATCH --job-name=origin-gym-pcgrl
 #SBATCH --mail-type=BEGIN,END
 #SBATCH --mail-user=zj2086@nyu.edu
-#SBATCH --output=pcgrl-narrow3D_%j.out
+#SBATCH --output=pcgrl_%j.out
 
 cd /scratch/zj2086/gym-pcgrl
 
 ## Is this actually necessary?
-source activate pcgrl
+source activate pcgrl-sb2
 
 ## NOTE THIS ACTUALLY WORKS DONT LISTEN TO THE ERROR MESSAGE ???
-conda activate pcgrl
+conda activate pcgrl-sb2
 
 # start=$SECONDS
 python train.py

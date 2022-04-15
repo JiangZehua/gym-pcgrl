@@ -115,18 +115,17 @@ def main(game, representation, experiment, steps, n_cpu, render, logging, **kwar
         model.learn(total_timesteps=int(steps), tb_log_name=exp_name, callback=callback)
 
 ################################## MAIN ########################################
-# game = 'minecraft_3D_maze'
-game = 'minecraft_3D_zelda'
-representation = ['narrow3D']
-experiment = 'logTest'
+
+game = 'smb'
+representation ='narrow'
+experiment = None
 steps = 1e8
 render = False
 logging = True
-n_cpu = 20
+n_cpu = 10
 kwargs = {
-    'resume': True
+    'resume': False,
 }
 
 if __name__ == '__main__':
-    for repre in representation:
-        main(game, repre, experiment, steps, n_cpu, render, logging, **kwargs)
+    main(game, representation, experiment, steps, n_cpu, render, logging, **kwargs)
